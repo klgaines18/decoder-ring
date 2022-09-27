@@ -37,42 +37,53 @@ const polybiusModule = (function () {
   const letters = Object.keys(letterCoordinates);
   const coordinates = Object.values(letterCoordinates);
     
-  function polybius(input, encode = true) {
-    // your solution code here
+  function decoder(input) {
     let codedMessage = []
-    
-    if (!encode) {
-      const lengthCheck = input.replace(/\s+/g, '')
-      if (lengthCheck.length % 2 !== 0) return false
+    decodeArray = input.split(" ");
 
-      decodeArray = input.split(" ");
-      for (let i = 0; i < decodeArray.length; i++) {
-          const codedword = decodeArray[i];
-          const wordCoordinates = codedword.match(/.{2}/g)
-          for (let j = 0; j < wordCoordinates.length; j++) {
-              const coord = wordCoordinates[j]
-              if (coord === "42") {
-                  codedMessage.push("(i/j)")
-              } else {
-                  const index = coordinates.indexOf(coord);
-                  codedMessage.push(letters[index])
-              }
-          }
-          codedMessage.push(" ")
-      }
-    } else {
-          const message = input.toLowerCase();
-      
-          for (let char of message) {
-              if (letters.includes(char)) {
-                  codedMessage.push(letterCoordinates[char])
-              } else {
-                  codedMessage.push(char)
-              }
-          }
+    for (let i = 0; i < decodeArray.length; i++) {
+        const codedword = decodeArray[i];
+        const wordCoordinates = codedword.match(/.{2}/g)
+        for (let j = 0; j < wordCoordinates.length; j++) {
+            const coord = wordCoordinates[j]
+            if (coord === "42") {
+                codedMessage.push("(i/j)")
+            } else {
+                const index = coordinates.indexOf(coord);
+                codedMessage.push(letters[index])
+            }
+        }
+        if (i !== decodeArray.length - 1) codedMessage.push(" ")
     }
 
     return codedMessage.join("")
+  }
+
+
+  function encoder(input) {
+      let codedMessage = []
+      const message = input.toLowerCase();
+          
+      for (let char of message) {
+          if (letters.includes(char)) {
+              codedMessage.push(letterCoordinates[char])
+          } else {
+              codedMessage.push(char)
+          }
+      }
+
+      return codedMessage.join("")
+  }
+
+
+  function polybius(input, encode = true) {
+      // your solution code here
+      if (!encode) {
+          const lengthCheck = input.replace(/\s+/g, '')
+          if (lengthCheck.length % 2 !== 0) return false
+      }
+
+      return encode ? encoder(input) : decoder(input)
   }
 
   return {
