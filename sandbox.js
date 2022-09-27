@@ -29,16 +29,12 @@ const letterCoordinates = {
 
 const letters = Object.keys(letterCoordinates);
 const coordinates = Object.values(letterCoordinates);
-  
-function polybius(input, encode = true) {
-  // your solution code here
-  let codedMessage = []
-  
-  if (!encode) {
-    const lengthCheck = input.replace(/\s+/g, '')
-    if (lengthCheck.length % 2 !== 0) return false
+ 
 
+function decoder(input) {
+    let codedMessage = []
     decodeArray = input.split(" ");
+
     for (let i = 0; i < decodeArray.length; i++) {
         const codedword = decodeArray[i];
         const wordCoordinates = codedword.match(/.{2}/g)
@@ -53,19 +49,35 @@ function polybius(input, encode = true) {
         }
         codedMessage.push(" ")
     }
-  } else {
-        const message = input.toLowerCase();
-    
-        for (let char of message) {
-            if (letters.includes(char)) {
-                codedMessage.push(letterCoordinates[char])
-            } else {
-                codedMessage.push(char)
-            }
-        }
-  }
 
-  return codedMessage.join("")
+    return codedMessage.join("")
+}
+
+
+function encoder(input) {
+    let codedMessage = []
+    const message = input.toLowerCase();
+        
+    for (let char of message) {
+        if (letters.includes(char)) {
+            codedMessage.push(letterCoordinates[char])
+        } else {
+            codedMessage.push(char)
+        }
+    }
+
+    return codedMessage.join("")
+}
+
+
+function polybius(input, encode = true) {
+    // your solution code here
+    if (!encode) {
+        const lengthCheck = input.replace(/\s+/g, '')
+        if (lengthCheck.length % 2 !== 0) return false
+    }
+
+    return encode ? encoder(input) : decoder(input)
 }
 
 const testing = polybius("44324233521254134", false)
