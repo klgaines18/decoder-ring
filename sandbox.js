@@ -1,84 +1,29 @@
-const letterCoordinates = {
-    "a": "11",
-    "b": "21",
-    "c": "31",
-    "d": "41",
-    "e": "51",
-    "f": "12",
-    "g": "22",
-    "h": "32",
-    "i": "42",
-    "j": "42",
-    "k": "52",
-    "l": "13",
-    "m": "23",
-    "n": "33",
-    "o": "43",
-    "p": "53",
-    "q": "14",
-    "r": "24",
-    "s": "34",
-    "t": "44",
-    "u": "54",
-    "v": "15",
-    "w": "25",
-    "x": "35",
-    "y": "45",
-    "z": "55"
-};
+const alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 
-const letters = Object.keys(letterCoordinates);
-const coordinates = Object.values(letterCoordinates);
- 
+function caesar(input, shift, encode = true) {
+  // your solution code here
+  if (!shift || shift === 0 || shift < -25 || shift > 25) return false
 
-function decoder(input) {
-    let codedMessage = []
-    decodeArray = input.split(" ");
-
-    for (let i = 0; i < decodeArray.length; i++) {
-        const codedword = decodeArray[i];
-        const wordCoordinates = codedword.match(/.{2}/g)
-        for (let j = 0; j < wordCoordinates.length; j++) {
-            const coord = wordCoordinates[j]
-            if (coord === "42") {
-                codedMessage.push("(i/j)")
-            } else {
-                const index = coordinates.indexOf(coord);
-                codedMessage.push(letters[index])
-            }
-        }
-        codedMessage.push(" ")
+  const message = input.toLowerCase();
+  let codedMessage = []
+  
+  for (let char of message) {
+    if (alphabet.includes(char)) {
+      let index = 0;
+      if ((encode && shift > 0) || (!encode && shift < 0)) {
+        index = alphabet.indexOf(char);
+      } else {
+        index = alphabet.lastIndexOf(char);
+      };
+      const newChar = encode ? alphabet[index + shift] : alphabet[index - shift];
+      codedMessage.push(newChar)
+    } else {
+      codedMessage.push(char)
     }
+  }
 
-    return codedMessage.join("")
+  return codedMessage.join("")
 }
 
-
-function encoder(input) {
-    let codedMessage = []
-    const message = input.toLowerCase();
-        
-    for (let char of message) {
-        if (letters.includes(char)) {
-            codedMessage.push(letterCoordinates[char])
-        } else {
-            codedMessage.push(char)
-        }
-    }
-
-    return codedMessage.join("")
-}
-
-
-function polybius(input, encode = true) {
-    // your solution code here
-    if (!encode) {
-        const lengthCheck = input.replace(/\s+/g, '')
-        if (lengthCheck.length % 2 !== 0) return false
-    }
-
-    return encode ? encoder(input) : decoder(input)
-}
-
-const testing = polybius("44324233521254134", false)
-console.log(testing)
+tester = caesar("zebra magazine", -3)
+console.log(tester)

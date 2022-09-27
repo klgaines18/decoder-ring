@@ -10,25 +10,25 @@ const caesarModule = (function () {
   function caesar(input, shift, encode = true) {
     // your solution code here
     if (!shift || shift === 0 || shift < -25 || shift > 25) return false
-
+  
     const message = input.toLowerCase();
     let codedMessage = []
     
     for (let char of message) {
       if (alphabet.includes(char)) {
-        //let index = alphabet.indexOf(char);
-        if (encode) {
-          const index = alphabet.indexOf(char);
-          codedMessage.push(alphabet[index + shift])
+        let index = 0;
+        if ((encode && shift > 0) || (!encode && shift < 0)) {
+          index = alphabet.indexOf(char);
         } else {
-          const index = alphabet.indexOf(char, 26);
-          codedMessage.push(alphabet[index - shift])
-        }
+          index = alphabet.lastIndexOf(char);
+        };
+        const newChar = encode ? alphabet[index + shift] : alphabet[index - shift];
+        codedMessage.push(newChar)
       } else {
         codedMessage.push(char)
       }
     }
-
+  
     return codedMessage.join("")
   }
 
