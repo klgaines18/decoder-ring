@@ -21,6 +21,12 @@ describe("polybius", () => {
             expect(actual).to.equal(expected);
         });
 
+        it("should ignore capital letters", () => {
+            const actual = polybius("Hello");
+            const expected = "3251131343";
+            expect(actual).to.equal(expected);
+        });
+
         it("should leave spaces as is", () => {
             const actual = polybius("Hello World");
             const expected = "3251131343 2543241341";
