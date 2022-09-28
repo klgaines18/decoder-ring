@@ -14,5 +14,11 @@ describe("polybius", () => {
             const expected = "4432423352125413";
             expect(actual).to.equal(expected);
         });
+
+        it("should translate both 'i' and 'j' to 42", () => {
+            const actual = polybius("justice");
+            const expected = "42543444423151";
+            expect(actual).to.equal(expected);
+        });
     });
 });
