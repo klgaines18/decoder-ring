@@ -17,4 +17,10 @@ describe("caesar", () => {
         const actual = caesar("message", 26);
         expect(actual).to.be.false;
     })
+
+    it("should ignore capital letters", () => {
+        const lower = caesar("message", 3);
+        const upper = caesar("MeSsAgE", 3);
+        expect(lower).to.equal(upper);
+    })
 });
