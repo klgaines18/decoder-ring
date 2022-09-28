@@ -45,4 +45,30 @@ describe("caesar", () => {
             expect(actual).to.equal(expected);
         });
     });
+
+    describe("decoding", () => {
+        it ("should decode a message by shifting letters by the given shift value", () => {
+            const actual = caesar("umaaiom", 8, false);
+            const expected = "message";
+            expect(actual).to.equal(expected);
+        });
+
+        it("should ignore capital letters", () => {
+            const lower = caesar("UmAaIoM", 3, false);
+            const upper = caesar("umaaiom", 3, false);
+            expect(lower).to.equal(upper);
+        });
+
+        it("should leave spaces and symbols as is", () => {
+            const actual = caesar("Bpqa qa i umaaiom!", 8, false);
+            const expected = "this is a message!";
+            expect(actual).to.equal(expected);
+        });
+
+        it("should handle shifts that go past end of alphabet", () => {
+            const actual = caesar("cheud pdjdclqh", 3, false);
+            const expected = "zebra magazine";
+            expect(actual).to.equal(expected);
+        });
+    })
 });
