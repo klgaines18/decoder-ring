@@ -20,5 +20,11 @@ describe("polybius", () => {
             const expected = "42543444423151";
             expect(actual).to.equal(expected);
         });
+
+        it("should leave spaces as is", () => {
+            const actual = polybius("Hello World");
+            const expected = "3251131343 2543241341";
+            expect(actual).to.equal(expected);
+        });
     });
 });
