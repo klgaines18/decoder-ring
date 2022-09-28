@@ -30,6 +30,12 @@ describe("caesar", () => {
         expect(lower).to.equal(upper);
     })
 
+    it("should leave spaces and symbols as is", () => {
+        const actual = caesar("This is a message!", 8);
+        const expected = "bpqa qa i umaaiom!";
+        expect(actual).to.equal(expected);
+    })
+
     it("should handle shifts that go past end of alphabet", () => {
         const actual = caesar("zebra magazine", 3);
         const expected = "cheud pdjdclqh";
