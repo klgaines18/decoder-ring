@@ -49,4 +49,30 @@ describe("substitution", () => {
             expect(lower).to.equal(upper);
         });
     });
+
+    describe("decoding", () => {
+        it("should correctly decode a message based on the given alphabet", () => {
+            const actual = substitution("jrufscpw", "xoyqmcgrukswaflnthdjpzibev", false);
+            const expected = "thinkful";
+            expect(actual).to.equal(expected);
+        });
+
+        it("should leave spaces as is", () => {
+            const actual = substitution("elp xhm xf mbymwwmfj dne", "xoyqmcgrukswaflnthdjpzibev", false);
+            const expected = "you are an excellent spy";
+            expect(actual).to.equal(expected);
+        });
+
+        it("should allow a submitted alphabet to contain special characters", () => {
+            const actual = substitution("y&ii$r&", "$wae&zrdxtfcygvuhbijnokmpl", false);
+            const expected = "message";
+            expect(actual).to.equal(expected);
+        });
+
+        it("should ignore capital letters", () => {
+            const lower = substitution("jrufscpw", "xoyqmcgrukswaflnthdjpzibev", false);
+            const upper = substitution("JrUfScPw", "xoyqmcgrukswaflnthdjpzibev", false);
+            expect(lower).to.equal(upper);
+        });
+    });
 });
