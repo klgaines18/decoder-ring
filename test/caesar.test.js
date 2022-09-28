@@ -18,6 +18,12 @@ describe("caesar", () => {
         expect(actual).to.be.false;
     })
 
+    it ("should encode a message by shifting letters by the given shift value", () => {
+        const actual = caesar("message", 8);
+        const expected = "umaaiom";
+        expect(actual).to.equal(expected);
+    })
+
     it("should ignore capital letters", () => {
         const lower = caesar("message", 3);
         const upper = caesar("MeSsAgE", 3);
@@ -26,7 +32,7 @@ describe("caesar", () => {
 
     it("should handle shifts that go past end of alphabet", () => {
         const actual = caesar("zebra magazine", 3);
-        const expected = "cheud pdjdclqh"
+        const expected = "cheud pdjdclqh";
         expect(actual).to.equal(expected);
     })
 });
