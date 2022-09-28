@@ -23,4 +23,10 @@ describe("caesar", () => {
         const upper = caesar("MeSsAgE", 3);
         expect(lower).to.equal(upper);
     })
+
+    it("should handle shifts that go past end of alphabet", () => {
+        const actual = caesar("zebra magazine", 3);
+        const expected = "cheud pdjdclqh"
+        expect(actual).to.equal(expected);
+    })
 });
