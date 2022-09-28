@@ -1,29 +1,37 @@
-const alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+// you can add any code you want within this function scope
+const alphabetPrime = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
 
-function caesar(input, shift, encode = true) {
+
+function substitution(input, alphabet, encode = true) {
   // your solution code here
-  if (!shift || shift === 0 || shift < -25 || shift > 25) return false
+  const alphabetArray = alphabet.split("");
+  
+  let findDuplicates = alphabetArray.filter((item, index) => alphabetArray.indexOf(item) != index)
+  if(findDuplicates.length !== 0 || alphabetArray.length !== 26) return false
 
   const message = input.toLowerCase();
   let codedMessage = []
-  
+
   for (let char of message) {
-    if (alphabet.includes(char)) {
-      let index = 0;
-      if ((encode && shift > 0) || (!encode && shift < 0)) {
-        index = alphabet.indexOf(char);
+    if (encode) {
+      if (alphabetPrime.includes(char)) {
+        let index = alphabetPrime.indexOf(char)
+        codedMessage.push(alphabetArray[index])
       } else {
-        index = alphabet.lastIndexOf(char);
-      };
-      const newChar = encode ? alphabet[index + shift] : alphabet[index - shift];
-      codedMessage.push(newChar)
+        codedMessage.push(char)
+      }
     } else {
-      codedMessage.push(char)
+      if (alphabetArray.includes(char)) {
+        let index = alphabetArray.indexOf(char)
+        codedMessage.push(alphabetPrime[index])
+      } else {
+        codedMessage.push(char)
+      }
     }
   }
 
   return codedMessage.join("")
 }
 
-tester = caesar("zebra magazine", -3)
+const tester = substitution("thinkful", "abcabcabcabcabcabcabcabcyz")
 console.log(tester)
