@@ -1,37 +1,82 @@
-// you can add any code you want within this function scope
-const alphabetPrime = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+const letterCoordinates = {
+  "a": "11",
+  "b": "21",
+  "c": "31",
+  "d": "41",
+  "e": "51",
+  "f": "12",
+  "g": "22",
+  "h": "32",
+  "i": "42",
+  "j": "42",
+  "k": "52",
+  "l": "13",
+  "m": "23",
+  "n": "33",
+  "o": "43",
+  "p": "53",
+  "q": "14",
+  "r": "24",
+  "s": "34",
+  "t": "44",
+  "u": "54",
+  "v": "15",
+  "w": "25",
+  "x": "35",
+  "y": "45",
+  "z": "55"
+};
 
-
-function substitution(input, alphabet, encode = true) {
-  // your solution code here
-  const alphabetArray = alphabet.split("");
+const letters = Object.keys(letterCoordinates);
+const coordinates = Object.values(letterCoordinates);
   
-  let findDuplicates = alphabetArray.filter((item, index) => alphabetArray.indexOf(item) != index)
-  if(findDuplicates.length !== 0 || alphabetArray.length !== 26) return false
-
-  const message = input.toLowerCase();
+function decoder(input) {
   let codedMessage = []
+  decodeArray = input.split(" ");
 
-  for (let char of message) {
-    if (encode) {
-      if (alphabetPrime.includes(char)) {
-        let index = alphabetPrime.indexOf(char)
-        codedMessage.push(alphabetArray[index])
-      } else {
-        codedMessage.push(char)
+  for (let i = 0; i < decodeArray.length; i++) {
+      const codedword = decodeArray[i];
+      const wordCoordinates = codedword.match(/.{2}/g)
+      for (let j = 0; j < wordCoordinates.length; j++) {
+          const coord = wordCoordinates[j]
+          if (coord === "42") {
+              codedMessage.push("(i/j)")
+          } else {
+              const index = coordinates.indexOf(coord);
+              codedMessage.push(letters[index])
+          }
       }
-    } else {
-      if (alphabetArray.includes(char)) {
-        let index = alphabetArray.indexOf(char)
-        codedMessage.push(alphabetPrime[index])
-      } else {
-        codedMessage.push(char)
-      }
-    }
+      if (i !== decodeArray.length - 1) codedMessage.push(" ")
   }
 
   return codedMessage.join("")
 }
 
-const tester = substitution("thinkful", "abcabcabcabcabcabcabcabcyz")
-console.log(tester)
+
+function encoder(input) {
+    let codedMessage = []
+    const message = input.toLowerCase();
+        
+    for (let char of message) {
+        if (letters.includes(char)) {
+            codedMessage.push(letterCoordinates[char])
+        } else {
+            codedMessage.push(char)
+        }
+    }
+
+    return codedMessage.join("")
+}
+
+
+function polybius(input, encode = true) {
+    // your solution code here
+    if (!encode) {
+        const lengthCheck = input.replace(/\s+/g, '')
+        if (lengthCheck.length % 2 !== 0) return false
+    }
+
+    return encode ? encoder(input) : decoder(input)
+}
+
+console.log(polybius("justice"))
